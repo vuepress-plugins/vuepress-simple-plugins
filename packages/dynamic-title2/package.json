@@ -1,0 +1,63 @@
+{
+  "name": "vuepress-plugin-dynamic-title2",
+  "version": "2.0.0",
+  "description": "dynamic-title2 plugin for VuePress",
+  "main": "lib/node/index.js",
+  "types": "lib/node/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vuepress-plugins/vuepress-simple-plugins.git",
+    "directory": "packages/dynamic-title2"
+  },
+  "keywords": [
+    "vuepress",
+    "vuepress2",
+    "vuepress-plugin",
+    "vuepress-blog",
+    "dynamic-title2",
+    "blog"
+  ],
+  "author": {
+    "email": "chenjibzh@163.com",
+    "name": "Caleb",
+    "url": "https://reinness.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vuepress-plugins/vuepress-simple-plugins/issues"
+  },
+  "homepage": "https://github.com/vuepress-plugins/vuepress-simple-plugins/packages/dynamic-title2#readme",
+  "files": [
+    "lib",
+    "src"
+  ],
+  "scripts": {
+    "build": "rollup -c",
+    "clean": "rimraf ./lib ./*.tsbuildinfo",
+    "dev": "concurrently \"pnpm dev:copy\" \"pnpm dev:ts\"",
+    "dev:copy": "cpx \"src/client/**/*.{vue,scss}\" lib/client -w",
+    "dev:ts": "tsc -b tsconfig.build.json --watch"
+  },
+  "dependencies": {
+    "@vuepress/client": "2.0.0-beta.48",
+    "@vuepress/utils": "2.0.0-beta.48",
+    "vue": "^3.2.37",
+    "vue-router": "^4.0.16",
+    "vuepress-shared": "^2.0.0-beta.83"
+  },
+  "devDependencies": {
+    "@vuepress/core": "2.0.0-beta.48",
+    "rimraf": "3.0.2"
+  },
+  "peerDependencies": {
+    "sass-loader": "^13.0.0"
+  },
+  "peerDependenciesMeta": {
+    "sass-loader": {
+      "optional": true
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
