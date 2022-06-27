@@ -26,7 +26,7 @@
   "bugs": {
     "url": "https://github.com/vuepress-plugins/vuepress-simple-plugins/issues"
   },
-  "homepage": "https://github.com/vuepress-plugins/vuepress-simple-plugins/packages/dynamic-title2#readme",
+  "homepage": "https://github.com/vuepress-plugins/vuepress-simple-plugins/tree/main/packages/dynamic-title2#readme",
   "files": [
     "lib",
     "src"
