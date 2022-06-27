@@ -1,0 +1,147 @@
+{
+  "name": "vuepress-simple-plugins",
+  "version": "2.0.0",
+  "description": "A simple set of vuepress plugins",
+  "workspaces": [
+    "demo/*",
+    "docs/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "cross-env mode=production pnpm run --stream -r build",
+    "clean": "pnpm run --stream -r clean",
+    "commit": "pnpm git-cz",
+    "dev": "concurrently \"tsc -b tsconfig.build.json --watch\" \"pnpm run dev:copy\"",
+    "dev:copy": "pnpm run --parallel -r dev:copy",
+    "docs:vite-build": "pnpm run --parallel -r docs:vite-build",
+    "docs:webpack-build": "pnpm run --parallel -r docs:vite-build",
+    "postinstall": "husky install",
+    "lint": "pnpm lint:prettier --write && pnpm lint:eslint --fix && pnpm lint:stylelint --fix",
+    "lint:check": "pnpm lint:prettier && pnpm lint:eslint && pnpm lint:stylelint",
+    "lint:eslint": "eslint . --ext .js,.ts,.vue",
+    "lint:md": "markdownlint **/*.md",
+    "lint:prettier": "prettier --check .",
+    "lint:stylelint": "stylelint packages/*/src/**/*.scss",
+    "packages:bootstrap": "ts-node -O {\\\"module\\\":\\\"commonjs\\\"} scripts/bootstrap.ts",
+    "packages:createdocs": "ts-node -O {\\\"module\\\":\\\"commonjs\\\"} scripts/createdocs.ts",
+    "packages:check-update": "ncu --deep --timeout 600000",
+    "packages:update": "pnpm up -r",
+    "release": "pnpm release:bump && pnpm clean && pnpm build && pnpm release:publish && pnpm release:sync",
+    "release:bump": "bumpp package.json demo/*/package.json docs/*/package.json packages/*/package.json --execute=\"pnpm standard-version --skip.bump --skip.commit --skip.tag && git add CHANGELOG.md\" --commit \"chore(release): publish v%s\" --all --tag --push",
+    "release:publish": "cross-env NODE_OPTIONS=\"--experimental-json-modules\" ts-node-esm  -O {\\\"module\\\":\\\"ESNext\\\"} scripts/release",
+    "release:sync": "cross-env NODE_OPTIONS=\"--experimental-json-modules\" ts-node-esm  -O {\\\"module\\\":\\\"ESNext\\\"} scripts/sync",
+    "test": "vitest --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vuepress-plugins/vuepress-simple-plugins.git"
+  },
+  "keywords": [
+    "vuepress2",
+    "vuepress-plugin",
+    "vuepress-simple-plugins"
+  ],
+  "author": {
+    "email": "chenjibzh@163.com",
+    "name": "Caleb",
+    "url": "https://reinness.com"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "17.0.2",
+    "@commitlint/config-conventional": "17.0.2",
+    "@rollup/plugin-commonjs": "22.0.0",
+    "@rollup/plugin-json": "4.1.0",
+    "@rollup/plugin-node-resolve": "13.3.0",
+    "@rollup/plugin-typescript": "8.3.3",
+    "@types/inquirer": "8.2.1",
+    "@types/node": "18.0.0",
+    "@typescript-eslint/eslint-plugin": "5.28.0",
+    "@typescript-eslint/parser": "5.28.0",
+    "@vue/eslint-config-typescript": "11.0.0",
+    "bumpp": "8.2.1",
+    "c8": "7.11.3",
+    "chalk": "5.0.1",
+    "commitizen": "4.2.4",
+    "concurrently": "7.2.2",
+    "cpx2": "4.2.0",
+    "cross-env": "7.0.3",
+    "cz-git": "1.3.5",
+    "eslint": "8.18.0",
+    "eslint-config-prettier": "8.5.0",
+    "eslint-plugin-prettier": "4.0.0",
+    "eslint-plugin-vue": "9.1.1",
+    "execa": "6.1.0",
+    "husky": "8.0.1",
+    "inquirer": "9.0.0",
+    "lint-staged": "13.0.2",
+    "markdownlint-cli": "0.31.1",
+    "npm-check-updates": "14.0.1",
+    "ora": "6.1.0",
+    "prettier": "2.7.1",
+    "rollup": "2.75.6",
+    "rollup-plugin-copy": "3.4.0",
+    "rollup-plugin-dts": "4.2.2",
+    "rollup-plugin-terser": "7.0.2",
+    "sort-package-json": "1.57.0",
+    "standard-version": "9.5.0",
+    "stylelint": "14.9.1",
+    "stylelint-config-prettier": "9.0.3",
+    "stylelint-config-standard": "26.0.0",
+    "stylelint-config-standard-scss": "4.0.0",
+    "stylelint-order": "5.0.0",
+    "ts-node": "10.8.1",
+    "tslib": "2.4.0",
+    "typescript": "4.7.4",
+    "vitest": "0.15.1"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vuepress-plugins/vuepress-simple-plugins/issues"
+  },
+  "homepage": "https://github.com/vuepress-plugins/vuepress-simple-plugins#readme",
+  "lint-staged": {
+    "*.vue": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{js,ts}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{md,json,yml}": [
+      "prettier --write"
+    ],
+    "*.scss": [
+      "stylelint --fix",
+      "prettier --write"
+    ],
+    "package.json": [
+      "sort-package-json"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-git"
+    }
+  },
+  "packageManager": "pnpm@7.3.0",
+  "engines": {
+    "node": ">=14",
+    "pnpm": ">=7"
+  },
+  "pnpm": {
+    "peerDependencyRules": {
+      "ignoreMissing": [
+        "@algolia/client-search",
+        "@types/react",
+        "eslint-plugin-import",
+        "eslint-plugin-n",
+        "eslint-plugin-promise",
+        "postcss",
+        "react",
+        "react-dom",
+        "webpack"
+      ]
+    }
+  }
+}
