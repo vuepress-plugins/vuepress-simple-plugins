@@ -1,0 +1,54 @@
+name: Deploy Docs
+
+on:
+  push:
+    branches:
+      - main
+      - work
+
+jobs:
+  deploy-gh-pages:
+    name: Deploy V2 docs to gh pages
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 7
+          run_install: true
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: pnpm
+
+      - name: Build project
+        env:
+          NODE_OPTIONS: --max_old_space_size=4096
+        run: pnpm run build
+
+      - name: Docs build
+        env:
+          BASE: /
+          HOSTNAME: https://vuepress-plugins.github.io/
+          NODE_OPTIONS: --max_old_space_size=4096
+        run: pnpm run docs:vite-build
+
+      - name: Combine output
+        run: |
+          pnpm cpx "docs/dynamic-title2/dist/**" dist/dynamic-title2
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          repository-name: vuepress-plugins/vuepress-plugins.github.io
+          branch: main
+          folder: dist
+          token: ${{ secrets.ACCESS_TOKEN }}
+          single-commit: true
